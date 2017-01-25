@@ -1,0 +1,78 @@
+{
+  "info": {
+    "title": "Mock Customer Server",
+    "description": "This server mocks fidelity on-premise services - strictly for demo",
+    "version": "1.0.0"
+  },
+  "swagger": "2.0",
+  "paths": {
+    "/health": {
+      "get": {
+        "description": "Get Health of Service",
+        "tags": [
+          "health"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Health",
+            "type": "object",
+            "schema": {
+              "$ref": "#/definitions/Health"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Error": {
+      "type": "object",
+      "required": [
+        "errorMessage"
+      ],
+      "properties": {
+        "errorMessage": {
+          "type": "string"
+        }
+      }
+    },
+    "Health": {
+      "type": "object",
+      "required": [
+        "cpuPercentUsage",
+        "totalMemPercentageUsage",
+        "loadAvg"
+      ],
+      "properties": {
+        "cpuPercentUsage": {
+          "type": "number"
+        },
+        "totalMemPercentageUsage": {
+          "type": "number"
+        },
+        "loadAvg": {
+          "type": "number"
+        }
+      }
+    }
+  },
+  "responses": {},
+  "parameters": {},
+  "securityDefinitions": {},
+  "tags": [
+    {
+      "name": "error",
+      "description": "Everything you need to know about Error"
+    },
+    {
+      "name": "health",
+      "description": "Everything you need to know about Health"
+    }
+  ]
+}
