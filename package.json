@@ -28,6 +28,7 @@
     "cors": "^2.8.1",
     "debug": "^2.5.1",
     "discovery-proxy": "https://github.com/monsterstack/discovery-proxy#development",
+    "model": "https://github.com/cloudsendr/model#development",
     "ejs": "^2.5.5",
     "express": "^4.14.0",
     "external-ip": "^0.2.4",
