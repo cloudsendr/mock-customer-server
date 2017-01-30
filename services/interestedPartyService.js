@@ -17,6 +17,9 @@ class InterestedPartyService {
     return model.findInterestedParty(id);
   }
 
+  findInterestedParties(search, pageDescriptor){
+    return model.findInterestedParties(search, pageDescriptor.page, pageDescriptor.size, 'asc');
+  }
 }
 
-exports.InterestedPartyService = InterestedPartyService
+module.exports = InterestedPartyService;
