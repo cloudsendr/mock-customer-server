@@ -49,8 +49,7 @@
     "socket.io-redis": "^2.0.1",
     "socketio-auth": "^0.1.0",
     "uuid": "^3.0.1",
-    "winston": "^2.3.0",
-    "workers": "https://github.com/cloudsendr/workers#development"
+    "winston": "^2.3.0"
   },
   "devDependencies": {
     "chai": "^3.5.0"
