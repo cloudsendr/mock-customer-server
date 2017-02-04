@@ -8,6 +8,7 @@ const ServiceError = require('core-server').ServiceError;
 const Policy = policyModel.Policy;
 
 const PolicyService = require(appRoot + '/services/policyService');
+const S3Service = require(appRoot + '/services/s3Service');
 
 /**
  * Build Page Descriptor
@@ -79,17 +80,77 @@ const updatePolicy = (app) => {
     policyService.findPolicyById(policyId).then((result) => {
         if (result ){
           policyService.updatePolicy(policy).then((doc) => {
-             res.status(HttpStatus.OK).send(doc);
+             // Data updated. Send notifications to interested parties
+             if ( doc.status != result.status  ){
+                 sendMessage(result, doc).then((s3data) => {
+             }).catch((err) => {
+                 console.log(err);
+              });
+            }
+            res.status(HttpStatus.OK).send(doc);
+
            }).catch((err) => {
+             console.log(err);
               new Error(HttpStatus.INTERNAL_SERVER_ERROR, err.message).writeResponse(res);
           });
         } else {
-          res.status(HttpStatus.BAD_REQUEST, "No Policy with that Id exists");
+          new Error(HttpStatus.BAD_REQUEST, err.message).writeResponse(res);
         }
     }).catch((err) => {
       new Error(HttpStatus.OK, err.message).writeResponse(res);
-   });
- }
+    });
+  }
+}
+
+
+const sendMessage = (fromPolicy, toPolicy) =>  {
+  console.log("sending message to S3");
+     let p = new Promise((resolve, reject) =>  {
+        let service = new S3Service();
+        let key = fromPolicy.policyNumber;
+        console.log(key);
+        let transitionData = {
+            "from" : fromPolicy.status,
+            "to" : toPolicy.status,
+            "interestedParties" : [
+              {
+                "role" : "buyer",
+                "firstName" : toPolicy.buyer.firstName,
+                "lastName" : toPolicy.buyer.lastName,
+                "email" : toPolicy.email,
+                "sms" : toPolicy.phone
+              },
+              {
+                "role" : "seller",
+                "firstName" : toPolicy.seller.firstName,
+                "lastName" : toPolicy.seller.lastName,
+                "email" : toPolicy.seller.email,
+                "sms" : toPolicy.seller.phone
+              },
+              {
+                "role" : "agent",
+                "firstName" : toPolicy.agent.firstName,
+                "lastName" : toPolicy.agent.lastName,
+                "email" : toPolicy.agent.email,
+                "sms" : toPolicy.agent.phone
+              },
+              {
+                "role" : "lender",
+                "firstName" : toPolicy.lender.firstName,
+                "lastName" : toPolicy.lender.lastName,
+                "email" : toPolicy.lender.email,
+                "sms" : toPolicy.lender.phone
+              }
+          ]
+        };
+
+        service.sendTransitionData(key, transitionData).then((ret) => {
+            console.log(ret);
+        }).catch((err) => {
+            console.log(err);
+      });
+    });
+    return p;
 }
 
 exports.findPolicy = findPolicy;
