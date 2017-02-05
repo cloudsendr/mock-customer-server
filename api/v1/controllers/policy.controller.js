@@ -117,8 +117,8 @@ const sendMessage = (fromPolicy, toPolicy) =>  {
                 "role" : "buyer",
                 "firstName" : toPolicy.buyer.firstName,
                 "lastName" : toPolicy.buyer.lastName,
-                "email" : toPolicy.email,
-                "sms" : toPolicy.phone
+                "email" : toPolicy.buyer.email,
+                "sms" : toPolicy.buyer.phone
               },
               {
                 "role" : "seller",
