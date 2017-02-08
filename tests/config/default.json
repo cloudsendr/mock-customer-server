@@ -1,14 +1,8 @@
 {
   "email": {
-    "sendgrid": {
-      "apiKey": "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"
-    }
   },
   "sms": {
     "twilio": {
-      "authToken": "e8a13357a4e28e16a2fb3ad1c0b11b53",
-      "accountSID": "ACfb070eab7e5bbdfc21496ac43d5cadf4",
-      "phoneNumber": "+19548704530"
     }
   }
 }
