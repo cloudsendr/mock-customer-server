@@ -49,6 +49,7 @@
     "socket.io-redis": "^2.0.1",
     "socketio-auth": "^0.1.0",
     "uuid": "^3.0.1",
+    "tinyurl" : "1.1.2",
     "winston": "^2.3.0"
   },
   "devDependencies": {
