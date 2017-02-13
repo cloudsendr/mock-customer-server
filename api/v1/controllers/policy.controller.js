@@ -1,6 +1,7 @@
 'use strict';
 const debug = require('debug')('policy-controller');
 const appRoot = require('app-root-path');
+const config = require('config');
 
 const HttpStatus = require('http-status');
 const policyModel = require('model').model;
@@ -9,6 +10,7 @@ const Policy = policyModel.Policy;
 
 const PolicyService = require(appRoot + '/services/policyService');
 const S3Service = require(appRoot + '/services/s3Service');
+const tinyUrl = require('tinyurl');
 
 /**
  * Build Page Descriptor
@@ -141,7 +143,10 @@ const sendMessage = (fromPolicy, toPolicy) =>  {
                 "email" : toPolicy.lender.email,
                 "sms" : toPolicy.lender.phone
               }
-          ]
+          ], "metadata":{
+                "url" : shorten(config.policyDetailUrl + toPolicy.id),
+                "policyNumber": toPolicy.policyNumber
+          }
         };
 
         service.sendTransitionData(key, transitionData).then((ret) => {
@@ -151,6 +156,13 @@ const sendMessage = (fromPolicy, toPolicy) =>  {
       });
     });
     return p;
+}
+
+const shorten = (url) => {
+  tinyUrl.shorten(url, function(res) {
+      console.log(res);
+      return res;//Returns a shorter version of http://google.com - http://tinyurl.com/2tx`
+  });
 }
 
 exports.findPolicy = findPolicy;

@@ -6,5 +6,6 @@
   },
   "websockets": {
     "enabled": true
-  }
+  },
+  "policyDetailUrl" : "http://u4-appserver-node.myconnected.house/www/#/root/policyDetail/"
 }
