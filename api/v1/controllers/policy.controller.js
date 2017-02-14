@@ -106,11 +106,9 @@ const updatePolicy = (app) => {
 
 
 const sendMessage = (fromPolicy, toPolicy) =>  {
-  console.log("sending message to S3");
      let p = new Promise((resolve, reject) =>  {
         let service = new S3Service();
         let key = fromPolicy.policyNumber;
-        console.log(key);
         let transitionData = {
             "from" : fromPolicy.status,
             "to" : toPolicy.status,
@@ -143,27 +141,20 @@ const sendMessage = (fromPolicy, toPolicy) =>  {
                 "email" : toPolicy.lender.email,
                 "sms" : toPolicy.lender.phone
               }
-          ], "metadata":{
-                "url" : shorten(config.policyDetailUrl + toPolicy.id),
+          ], "metadata": {
                 "policyNumber": toPolicy.policyNumber
           }
         };
+          service.sendTransitionData(key, transitionData, toPolicy.id).then((ret) => {
+              console.log(ret);
+          }).catch((err) => {
+              console.log(err);
+          });
 
-        service.sendTransitionData(key, transitionData).then((ret) => {
-            console.log(ret);
-        }).catch((err) => {
-            console.log(err);
-      });
     });
     return p;
 }
 
-const shorten = (url) => {
-  tinyUrl.shorten(url, function(res) {
-      console.log(res);
-      return res;//Returns a shorter version of http://google.com - http://tinyurl.com/2tx`
-  });
-}
 
 exports.findPolicy = findPolicy;
 exports.findPolicies = findPolicies;

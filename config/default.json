@@ -7,5 +7,10 @@
   "websockets": {
     "enabled": true
   },
-  "policyDetailUrl" : "http://u4-appserver-node.myconnected.house/www/#/root/policyDetail/"
+  "policyDetailUrl" : "http://u4-appserver-node.myconnected.house/www/#/root/policyDetail/",
+  "stash": {
+   "type": "tcp",
+   "host": "cdsp.digitalfunk.io",
+   "port": 9600
+  }
 }
